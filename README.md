@@ -9,7 +9,6 @@ npm create @quick-start/electron
 yarn create @quick-start/electron
 ```
 
-
 ## Technology Used
 
 - **React**  
@@ -21,32 +20,17 @@ yarn create @quick-start/electron
 Command run for installing the tailwind postcss and autoprefixer dependencies, run:
 
 ```bash
-npm install -D tailwindcss@3.4.14 postcss autoprefixer
+npm install tailwindcss@3.4.14 postcss autoprefixer --save-dev
 ```
 - **Tailwind CSS(V-3.4.14)**  
 - **PostCSS**  
 - **AutoPrefixer**
-
-### Build Tools
-
-Command run for installing the required build dependencies, run:
-
 ```bash
-npm install -D electron-builder@3.0.0
+npm install @iconify/react clsx --save-dev
 ```
-- **Electron Builder**  
+- **Iconify**
+- **CLSX**
 
-### Linting and Formatting
-
-Command run for installing the required linting and formatting dependencies, run:
-
-```bash
-npm install -D eslint@8.56.0 @typescript-eslint/eslint-plugin@6.1.0 @typescript-eslint/parser@6.1.0 prettier@3.0.2 eslint-config-prettier@9.1.0
-```
-- **ESLint**  
-- **TypeScript ESLint**  
-- **Prettier**  
-- **ESLint Config Prettier**  
 
 ## File Structure
 
