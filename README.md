@@ -10,16 +10,19 @@ yarn create @quick-start/electron
 ```
 
 
-## Technology used
-### React
-### Electron
-### Typescript
-```
+## Technology Used
+
+- **React**  
+- **Electron**  
+- **TypeScript**  
+
+### Styling and Build Tools
+
+To install the required styling and build dependencies, run:
+
+```bash
 npm install -D tailwindcss@3.4.14 postcss autoprefixer
 ```
-### Tailwindcss
-### Postcss
-### Typescript
 
 ## File Structure
 
