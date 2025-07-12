@@ -18,11 +18,35 @@ yarn create @quick-start/electron
 
 ### Styling and Build Tools
 
-To install the required styling and build dependencies, run:
+Command run for installing the tailwind postcss and autoprefixer dependencies, run:
 
 ```bash
 npm install -D tailwindcss@3.4.14 postcss autoprefixer
 ```
+- **Tailwind CSS(V-3.4.14)**  
+- **PostCSS**  
+- **AutoPrefixer**
+
+### Build Tools
+
+Command run for installing the required build dependencies, run:
+
+```bash
+npm install -D electron-builder@3.0.0
+```
+- **Electron Builder**  
+
+### Linting and Formatting
+
+Command run for installing the required linting and formatting dependencies, run:
+
+```bash
+npm install -D eslint@8.56.0 @typescript-eslint/eslint-plugin@6.1.0 @typescript-eslint/parser@6.1.0 prettier@3.0.2 eslint-config-prettier@9.1.0
+```
+- **ESLint**  
+- **TypeScript ESLint**  
+- **Prettier**  
+- **ESLint Config Prettier**  
 
 ## File Structure
 
