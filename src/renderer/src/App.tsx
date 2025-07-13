@@ -1,11 +1,18 @@
+import { MainLayout } from "@/components"
+import { ThemeProvider } from "@/context"
+import { HashRouter, Route, Routes } from "react-router-dom"
 
 function App() {
   return (
-    <>
-      <div className="text-4xl font-bold text-blue-500">
-        Hello World!
-      </div>
-    </>
+    <ThemeProvider>
+      <HashRouter>
+        <Routes>
+          <Route path="/" element={<MainLayout />}>
+            <Route index element={<div>Home</div>} />
+          </Route>
+        </Routes>
+      </HashRouter>
+    </ThemeProvider>
   )
 }
 

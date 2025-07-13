@@ -28,6 +28,7 @@ export default defineConfig({
         '@/assets': resolve('src/renderer/src/assets'),
         '@/store': resolve('src/renderer/src/store'),
         '@/components': resolve('src/renderer/src/components'),
+        '@/context': resolve('src/renderer/src/context'),
         '@/mocks': resolve('src/renderer/src/mocks'),
       }
     },
