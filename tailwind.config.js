@@ -19,6 +19,14 @@ module.exports = {
           light: '#F1F1EC',
           dark: '#2d2d2d',
         },
+        'icon': {
+          light: '#092F63',
+          dark: '#E0E0E0',
+        },
+        'icon-bg': {
+          light: '#F5F5F5',
+          dark: '#333333',
+        },
       }
     },
   },
