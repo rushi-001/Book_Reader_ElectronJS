@@ -13,6 +13,7 @@ asarUnpack:
   - resources/**
 win:
   executableName: book-reader-electronjs
+  icon: resources/icon-color.svg
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}

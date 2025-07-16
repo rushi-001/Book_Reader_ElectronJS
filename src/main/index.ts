@@ -1,7 +1,6 @@
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import { app, BrowserWindow, ipcMain, shell } from 'electron'
 import { join } from 'path'
-import icon from '../../resources/icon.svg?asset'
 
 function createWindow(): void {
   // Create the browser window.
@@ -13,7 +12,11 @@ function createWindow(): void {
     title: 'Book Reader',
     vibrancy: 'under-window',
     autoHideMenuBar: true,
-    ...(process.platform === 'linux' ? { icon } : {}),
+    icon: process.platform === 'win32'
+      ? join(__dirname, '../../resources/icon-color-12px.ico')
+      : process.platform === 'darwin'
+        ? join(__dirname, '../../resources/icon.icns')
+        : join(__dirname, '../../resources/icon.png'),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: true,
