@@ -30,6 +30,7 @@ export default defineConfig({
         '@/components': resolve('src/renderer/src/components'),
         '@/context': resolve('src/renderer/src/context'),
         '@/mocks': resolve('src/renderer/src/mocks'),
+        '@/pages': resolve('src/renderer/src/pages'),
       }
     },
     plugins: [react()]
