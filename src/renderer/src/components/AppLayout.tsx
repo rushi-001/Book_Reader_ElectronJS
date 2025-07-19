@@ -37,16 +37,9 @@ export const MainLayout = ({ className, ...props }: ComponentProps<'main'>) => {
         >
             <Sidebar className="bg-navbar-bg-light dark:bg-navbar-bg-dark">
                 <div className="flex flex-col h-full justify-between">
-                    {/* TODO: make sidebar responsive */}
                     <Navigation />
                     <div className="p-3 flex flex-row items-end justify-between">
                         <SettingsButton className=" bg-icon-bg-light dark:bg-icon-bg-dark text-icon-light dark:text-icon-dark hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg" />
-                        {/* TODO: in setting need to add options for:
-                            - Profile (Github icon custom icon github name custom name)
-                            - About (My and Project info, fearures)
-                            - Help (FAQ, Basic flow, how to use)
-                        
-                        */}
                         <ThemeButton
                             className=" bg-icon-bg-light dark:bg-icon-bg-dark text-icon-light dark:text-icon-dark hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg"
 

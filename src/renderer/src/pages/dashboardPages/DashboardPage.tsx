@@ -1,6 +1,6 @@
 import { ContinueReadingCard, RecentlyAddedBooks, SplitViewCard } from "@/components"
 
-// TODO: ruff ignore:
+// ruff ignore:
 // +-----------------------------------------+
 // | [Continue Reading]                      |
 // | Book cover | Title | Progress | Resume |
@@ -24,6 +24,7 @@ export const DashboardPage = () => {
 
   return (
     <div>
+      {/* Style Idea: Use glass style where the bg is blure and feel or look like glass. */}
       <ContinueReadingCard />
       <SplitViewCard />
       <SplitViewCard />
