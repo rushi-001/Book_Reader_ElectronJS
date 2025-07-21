@@ -1,5 +1,5 @@
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
-import { app, BrowserWindow, ipcMain, shell } from 'electron'
+import { app, BrowserWindow, dialog, ipcMain, shell } from 'electron'
 import { join } from 'path'
 
 function createWindow(): void {
@@ -58,6 +58,24 @@ app.whenReady().then(() => {
 
   // IPC test
   ipcMain.on('ping', () => console.log('pong'))
+
+  // ---Open dialog to select book files(For: Add New Read button)---
+  ipcMain.handle('dialog:openBook', async () => {
+    const { canceled, filePaths } = await dialog.showOpenDialog({
+      title: 'Select a Book',
+      properties: ['openFile', 'multiSelections'],
+      filters: [
+        { name: 'Books', extensions: ['pdf', 'epub', 'mobi', 'txt', 'azw3'] },
+        // { name: 'All Files', extensions: ['*'] }
+      ]
+    })
+
+    if (canceled) {
+      return []
+    } else {
+      return filePaths
+    }
+  })
 
   createWindow()
 

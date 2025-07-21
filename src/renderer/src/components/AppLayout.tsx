@@ -1,8 +1,8 @@
-// import { useTheme } from "@/context"
-import { ComponentProps, forwardRef } from "react"
+import { useBooks } from "@/context"
+import { ComponentProps, forwardRef, useEffect } from "react"
 import { Outlet } from "react-router-dom"
 import { twMerge } from "tailwind-merge"
-import { SettingsButton, ThemeButton } from "./Buttons"
+import { AddBookButton, GitHubSyncButton, SettingsButton, ThemeButton } from "./Buttons"
 import { Navigation } from "./Navigation"
 
 export const Sidebar = ({ className, children, ...props }: ComponentProps<'aside'>) => {
@@ -22,7 +22,11 @@ export const Content = forwardRef<HTMLDivElement, ComponentProps<'div'>>(({ clas
 })
 
 export const MainLayout = ({ className, ...props }: ComponentProps<'main'>) => {
-    // const { theme } = useTheme()
+    const { addBooks, books } = useBooks()
+
+    useEffect(() => {
+        console.log('Books updated:', books)
+    }, [books])
 
     return (
         <main
@@ -40,6 +44,8 @@ export const MainLayout = ({ className, ...props }: ComponentProps<'main'>) => {
                     <Navigation />
                     <div className="p-3 flex flex-row items-end justify-between">
                         <SettingsButton className=" bg-icon-bg-light dark:bg-icon-bg-dark text-icon-light dark:text-icon-dark hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg" />
+                        <GitHubSyncButton className=" bg-icon-bg-light dark:bg-icon-bg-dark text-icon-light dark:text-icon-dark hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg" />
+                        <AddBookButton onClick={addBooks} className=" bg-icon-bg-light dark:bg-icon-bg-dark text-icon-light dark:text-icon-dark hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg" />
                         <ThemeButton
                             className=" bg-icon-bg-light dark:bg-icon-bg-dark text-icon-light dark:text-icon-dark hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg"
 

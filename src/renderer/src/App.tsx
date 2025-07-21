@@ -1,5 +1,4 @@
 import { MainLayout } from "@/components"
-import { ThemeProvider } from "@/context"
 import { AboutPage, DashboardPage, HelpPage, ProfilePage } from "@/pages"
 import { HashRouter, Route, Routes } from "react-router-dom"
 
@@ -7,39 +6,37 @@ import { HashRouter, Route, Routes } from "react-router-dom"
 
 function App() {
   return (
-    <ThemeProvider>
-      <HashRouter>
-        <Routes>
-          <Route path="/" element={<MainLayout />}>
-            {/* ---Dashboard Page Routes---- */}
-            <Route index element={<DashboardPage />} />
-            {/* ---+--- */}
+    <HashRouter>
+      <Routes>
+        <Route path="/" element={<MainLayout />}>
+          {/* ---Dashboard Page Routes---- */}
+          <Route index element={<DashboardPage />} />
+          {/* ---+--- */}
 
-            {/* ---Setting Button Routes---- */}
-            <Route path="/settings/profile" element={<ProfilePage />} />
-            <Route path="/settings/help" element={<HelpPage />} />
-            <Route path="/settings/about" element={<AboutPage />} />
-            {/* ---+--- */}
+          {/* ---Setting Button Routes---- */}
+          <Route path="/settings/profile" element={<ProfilePage />} />
+          <Route path="/settings/help" element={<HelpPage />} />
+          <Route path="/settings/about" element={<AboutPage />} />
+          {/* ---+--- */}
 
-            {/* ---Collection Page Routes--- */}
-            {/* Add your collection pages routes here */}
-            {/* ---+--- */}
+          {/* ---Collection Page Routes--- */}
+          {/* Add your collection pages routes here */}
+          {/* ---+--- */}
 
-            {/* ---Back To Book Page Routes--- */}
-            {/* Add your book pages routes here */}
-            {/* ---+--- */}
+          {/* ---Back To Book Page Routes--- */}
+          {/* Add your book pages routes here */}
+          {/* ---+--- */}
 
-            {/* ---Favorite Page Routes--- */}
-            {/* Add your favorite pages routes here */}
-            {/* ---+--- */}
+          {/* ---Favorite Page Routes--- */}
+          {/* Add your favorite pages routes here */}
+          {/* ---+--- */}
 
-            {/* ---Bookmark Page Routes--- */}
-            {/* Add your bookmark pages routes here */}
-            {/* ---+--- */}
-          </Route>
-        </Routes>
-      </HashRouter>
-    </ThemeProvider>
+          {/* ---Bookmark Page Routes--- */}
+          {/* Add your bookmark pages routes here */}
+          {/* ---+--- */}
+        </Route>
+      </Routes>
+    </HashRouter>
   )
 }
 

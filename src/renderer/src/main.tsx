@@ -1,9 +1,14 @@
+import { BooksProvider, ThemeProvider } from '@/context';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <ThemeProvider>
+      <BooksProvider>
+        <App />
+      </BooksProvider>
+    </ThemeProvider>
   </StrictMode>
 )
