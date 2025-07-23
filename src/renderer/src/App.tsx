@@ -1,5 +1,5 @@
 import { MainLayout } from "@/components"
-import { AboutPage, DashboardPage, HelpPage, ProfilePage } from "@/pages"
+import { AboutPage, CollectionShowcase, DashboardPage, HelpPage, ProfilePage } from "@/pages"
 import { HashRouter, Route, Routes } from "react-router-dom"
 
 // Name Suggestion: MyBookRepo
@@ -20,7 +20,7 @@ function App() {
           {/* ---+--- */}
 
           {/* ---Collection Page Routes--- */}
-          {/* Add your collection pages routes here */}
+          <Route path="/collection/showcase" element={<CollectionShowcase />} />
           {/* ---+--- */}
 
           {/* ---Back To Book Page Routes--- */}

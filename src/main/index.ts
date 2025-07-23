@@ -1,5 +1,6 @@
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import { app, BrowserWindow, dialog, ipcMain, shell } from 'electron'
+import { existsSync, promises as fs, mkdirSync } from 'fs'
 import { join } from 'path'
 
 function createWindow(): void {
@@ -74,6 +75,31 @@ app.whenReady().then(() => {
       return []
     } else {
       return filePaths
+    }
+  })
+
+  const booksFilePath = join(app.getPath('userData'), 'booksCollection.json')
+
+  const coversDir = join(app.getPath('userData'), 'covers')
+  if (!existsSync(coversDir)) mkdirSync(coversDir)
+
+  // console.log('Books collection file path:', booksFilePath)
+
+  ipcMain.handle('booksCollection:load', async () => {
+    try {
+      const data = await fs.readFile(booksFilePath, 'utf-8')
+      return JSON.parse(data)
+    } catch (error) {
+      console.error('Failed to load books collection:', error)
+      return []
+    }
+  })
+
+  ipcMain.handle('booksCollection:save', async (_, books) => {
+    try {
+      await fs.writeFile(booksFilePath, JSON.stringify(books))
+    } catch (error) {
+      console.error('Failed to save books collection:', error)
     }
   })
 

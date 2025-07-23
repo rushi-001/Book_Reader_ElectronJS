@@ -7,6 +7,8 @@ if (!process.contextIsolated) {
 try {
   contextBridge.exposeInMainWorld("electronAPI", {
     openBookDialog: () => ipcRenderer.invoke('dialog:openBook'),
+    loadBooksCollection: () => ipcRenderer.invoke('booksCollection:load'),
+    saveBooksCollection: (books) => ipcRenderer.invoke('booksCollection:save', books),
   })
 } catch (error) {
   console.error(error)

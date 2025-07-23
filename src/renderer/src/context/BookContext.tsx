@@ -3,7 +3,7 @@ import React, { createContext, ReactNode, useContext, useEffect, useState } from
 interface Book {
     id: string
     path: string
-    title: string
+    fileName: string
     addedAt: number
 }
 
@@ -21,14 +21,13 @@ export const BooksProvider = ({ children }: { children: ReactNode }) => {
     const [books, setBooks] = useState<Book[]>([])
 
     useEffect(() => {
-        const stored = localStorage.getItem(BOOKS_STORAGE_KEY)
-        if (stored) {
-            setBooks(JSON.parse(stored))
-        }
+        window.electronAPI.loadBooksCollection().then((loadedBooks: Book[]) => {
+            setBooks(loadedBooks)
+        })
     }, [])
 
     useEffect(() => {
-        localStorage.setItem(BOOKS_STORAGE_KEY, JSON.stringify(books))
+        window.electronAPI.saveBooksCollection(books)
     }, [books])
 
     const addBooks = async () => {
@@ -38,7 +37,7 @@ export const BooksProvider = ({ children }: { children: ReactNode }) => {
         const newBooks = filePaths.map(path => ({
             id: crypto.randomUUID(),
             path,
-            title: path.split(/[/\\]/).pop() || 'Unknown',
+            fileName: path.split(/[/\\]/).pop() || 'Unknown',
             addedAt: Date.now()
         }))
 
