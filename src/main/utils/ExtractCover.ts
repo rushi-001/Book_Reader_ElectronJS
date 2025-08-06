@@ -1,7 +1,14 @@
-import * as epub from 'epubjs'
-import { promises as fs } from 'fs'
-import { join } from 'path'
-import { PDFDocument } from 'pdf-lib'
+import EPub from 'epub';
+import { promises as fs } from 'fs';
+import { join } from 'path';
+import { PDFDocument } from "pdf-lib";
+import { GlobalWorkerOptions } from "pdfjs-dist";
+
+interface EPubWithCover extends EPub {
+  cover?: string
+}
+
+GlobalWorkerOptions.workerSrc = require("pdfjs-dist/build/pdf.worker.entry");
 
 // Function to generate a unique ID for each book
 export const GenerateBookId = (filePath: string): string => {
@@ -25,59 +32,51 @@ export const ExtractPdfCover = async (pdfPath: string, outputPath: string): Prom
 }
 
 // Function to extract and save EPUB cover
-export const ExtractEpubCover = async (epubPath: string, outputPath: string): Promise<void> => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const book = epub(epubPath)
+export const ExtractEpubCover = (epubPath: string, outputPath: string): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    const book = new EPub(epubPath) as EPubWithCover
 
-      // Try to get the defined cover first
-      const coverUrl = await book.coverUrl()
+    book.on('error', (err) => {
+      console.error('Failed to open EPUB:', err)
+      reject(err)
+    })
 
-      if (coverUrl) {
-        const coverImage = await book.get(coverUrl)
-        await fs.writeFile(outputPath, coverImage)
-        resolve()
-      } else {
-        // Fallback: Render first page as image
-        const rendition = await book.renderTo('epub-render-container', {
-          width: 600,
-          height: 800
-        })
-
-        await rendition.display()
-
-        // Wait a moment for rendering to complete
-        setTimeout(async () => {
-          try {
-            const canvas = document.createElement('canvas')
-            const ctx = canvas.getContext('2d')
-            const viewport = rendition.manager.container.getBoundingClientRect()
-
-            canvas.width = viewport.width
-            canvas.height = viewport.height
-
-            // This part would need to be adapted for Electron main process
-            // You might need to use a BrowserWindow to render the EPUB
-            // and capture its contents
-            console.warn('EPUB cover extraction in main process requires more complex setup')
-            reject(new Error('EPUB cover extraction requires renderer process implementation'))
-          } finally {
-            book.destroy()
-          }
-        }, 1000)
+    book.on('end', () => {
+      const cover = book.cover
+      if (!cover) {
+        const err = new Error('No cover found in EPUB')
+        console.error(err)
+        reject(err)
+        return
       }
-    } catch (error) {
-      console.error('Failed to extract EPUB cover:', error)
-    }
+
+      book.getImage(cover, (error, data) => {
+        if (error) {
+          console.error('Failed to get cover image:', error)
+          reject(error)
+          return
+        }
+
+        fs.writeFile(outputPath, data)
+          .then(() => resolve())
+          .catch((writeErr) => {
+            console.error('Failed to write cover image:', writeErr)
+            reject(writeErr)
+          })
+      })
+    })
+
+    book.parse()
   })
 }
 
 // Main function to handle cover extraction for all supported formats
-export const ProcessBookCover = async (filePath: string): Promise<string> => {
-  const fileName = filePath.split(/[\\/]/).pop() || 'unknown'
+export const ProcessBookCover = async (app, filePath: string): Promise<string> => {
+  const fileName = (filePath.split(/[\\/]/).pop() || 'unknown').trim()
   const fileExt = fileName.split('.').pop()?.toLowerCase()
-  const bookId = GenerateBookId(filePath)
-  const coverFileName = `${bookId}-${fileName}.${fileExt === 'pdf' ? 'pdf' : 'png'}`
+  const bookId = crypto.randomUUID()
+  const date = Date.now()
+  const coverFileName = `${bookId}-${date}.png`
   const coverPath = join(app.getPath('userData'), 'covers', coverFileName)
 
   try {

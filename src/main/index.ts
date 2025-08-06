@@ -13,15 +13,18 @@ function createWindow(): void {
     title: 'Book Reader',
     vibrancy: 'under-window',
     autoHideMenuBar: true,
-    icon: process.platform === 'win32'
-      ? join(__dirname, '../../resources/icon-color-12px.ico')
-      : process.platform === 'darwin'
-        ? join(__dirname, '../../resources/icon.icns')
-        : join(__dirname, '../../resources/icon.png'),
+    icon:
+      process.platform === 'win32'
+        ? join(__dirname, '../../resources/icon-color-12px.ico')
+        : process.platform === 'darwin'
+          ? join(__dirname, '../../resources/icon.icns')
+          : join(__dirname, '../../resources/icon.png'),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: true,
       contextIsolation: true,
+      webSecurity: false,
+      nodeIntegration: true,
     }
   })
 
@@ -66,25 +69,43 @@ app.whenReady().then(() => {
       title: 'Select a Book',
       properties: ['openFile', 'multiSelections'],
       filters: [
-        { name: 'Books', extensions: ['pdf', 'epub', 'mobi', 'txt', 'azw3'] },
-        // { name: 'All Files', extensions: ['*'] }
+        {
+          name: '"pdf", "epub", "mobi", "txt", "azw3"',
+          extensions: ['pdf', 'epub', 'mobi', 'txt', 'azw3']
+        },
+        { name: 'All Files', extensions: ['*'] }
       ]
     })
 
     if (canceled) {
       return []
     } else {
-      return filePaths
+      const defaultCoverPath = '/home/rushi/work/ElectronProjects/Book_Reader_ElectronJS/resources/no-book-cover.png'
+      const booksWithCovers: { filePath: string; coverPath: string }[] = []
+      for (const filePath of filePaths) {
+        try {
+          // const coverPath = await ProcessBookCover(app, filePath)
+          const coverPath = defaultCoverPath
+          booksWithCovers.push({ filePath, coverPath })
+        } catch (error) {
+          console.error(`Failed to extract cover for ${filePath}:`, error)
+          booksWithCovers.push({ filePath, coverPath: defaultCoverPath })
+        }
+      }
+      return booksWithCovers
     }
   })
 
+  // ---Load books collection from file __(For: App start)---
   const booksFilePath = join(app.getPath('userData'), 'booksCollection.json')
 
+  // ---Creates covers directory if not exists __(For: book covers)---
   const coversDir = join(app.getPath('userData'), 'covers')
   if (!existsSync(coversDir)) mkdirSync(coversDir)
 
   // console.log('Books collection file path:', booksFilePath)
 
+  // ---Give added books path from booksCollection.json file __(For: getting added books path)---
   ipcMain.handle('booksCollection:load', async () => {
     try {
       const data = await fs.readFile(booksFilePath, 'utf-8')
@@ -95,6 +116,7 @@ app.whenReady().then(() => {
     }
   })
 
+  // ---Saving/adding new books to the collection in the booksCollection.json file. __(For: saving books collection)---
   ipcMain.handle('booksCollection:save', async (_, books) => {
     try {
       await fs.writeFile(booksFilePath, JSON.stringify(books))
@@ -102,6 +124,17 @@ app.whenReady().then(() => {
       console.error('Failed to save books collection:', error)
     }
   })
+
+  // ---Serve cover images to renderer process __(For: fixing CSP issue)---
+  // ipcMain.handle('get-cover-image', async (_, coverPath: string) => {
+  //   try {
+  //     const buffer = await fs.readFile(coverPath)
+  //     return buffer
+  //   } catch (error) {
+  //     console.error('Failed to read cover image:', error)
+  //     return null
+  //   }
+  // })
 
   createWindow()
 

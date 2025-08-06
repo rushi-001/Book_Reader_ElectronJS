@@ -1,10 +1,11 @@
 /// <reference types="vite/client" />
-export { }
+export { };
 
 declare global {
     interface Window {
         electronAPI: {
-            openBookDialog: () => Promise<string[]>
+            invoke: (channel: string, ...args: any[]) => Promise<any>
+            openBookDialog: () => Promise<{ filePath: string; coverPath: string }[]>
             loadBooksCollection: () => Promise<Book[]>
             saveBooksCollection: (books: Book[]) => Promise<void>
         }
@@ -14,6 +15,7 @@ declare global {
         id: string
         path: string
         fileName: string
+        cover?: string
         addedAt: number
     }
 }

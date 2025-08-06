@@ -5,6 +5,7 @@ interface Book {
     path: string
     fileName: string
     addedAt: number
+    cover?: string
 }
 
 interface BooksContextType {
@@ -31,23 +32,24 @@ export const BooksProvider = ({ children }: { children: ReactNode }) => {
     }, [books])
 
     const addBooks = async () => {
-        const filePaths: string[] = await window.electronAPI.openBookDialog()
-        if (filePaths.length === 0) return
+        // Change here: expect array of { filePath, coverPath }
+        const filesWithCovers: { filePath: string; coverPath: string }[] = await window.electronAPI.openBookDialog()
+        if (filesWithCovers.length === 0) return
 
-        const newBooks = filePaths.map(path => ({
+        const newBooks = filesWithCovers.map(({ filePath, coverPath }) => ({
             id: crypto.randomUUID(),
-            path,
-            fileName: path.split(/[/\\]/).pop() || 'Unknown',
-            addedAt: Date.now()
+            path: filePath,
+            fileName: filePath.split(/[/\\]/).pop() || 'Unknown',
+            addedAt: Date.now(),
+            cover: coverPath
         }))
 
-        setBooks(prev => [...prev, ...newBooks])
+        setBooks((prev) => [...prev, ...newBooks])
     }
 
+
     return (
-        <BooksContext.Provider value={{ books, setBooks, addBooks }}>
-            {children}
-        </BooksContext.Provider>
+        <BooksContext.Provider value={{ books, setBooks, addBooks }}>{children}</BooksContext.Provider>
     )
 }
 

@@ -13,7 +13,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const [theme, setTheme] = useState<Theme>(() => {
         // Check localStorage first, then system preference
         const saved = localStorage.getItem('theme') as Theme
-        const systemPreference = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        const systemPreference = window.matchMedia('(prefers-color-scheme: dark)').matches
+            ? 'dark'
+            : 'light'
         return saved || systemPreference
     })
 
@@ -25,14 +27,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }, [theme])
 
     const toggleTheme = () => {
-        setTheme(prev => prev === 'light' ? 'dark' : 'light')
+        setTheme((prev) => (prev === 'light' ? 'dark' : 'light'))
     }
 
-    return (
-        <ThemeContext.Provider value={{ theme, toggleTheme }}>
-            {children}
-        </ThemeContext.Provider>
-    )
+    return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>
 }
 
 export const useTheme = () => {
