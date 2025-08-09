@@ -17,7 +17,7 @@ module.exports = {
         },
         'popup-bg': {
           light: '#F1F1EC',
-          dark: '#2d2d2d',
+          dark: '#1a1a1a',
         },
         'icon': {
           light: '#092F63',

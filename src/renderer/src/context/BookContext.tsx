@@ -1,6 +1,6 @@
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react'
 
-interface Book {
+export interface Book {
     id: string
     path: string
     fileName: string

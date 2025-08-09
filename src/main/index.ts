@@ -125,17 +125,6 @@ app.whenReady().then(() => {
     }
   })
 
-  // ---Serve cover images to renderer process __(For: fixing CSP issue)---
-  // ipcMain.handle('get-cover-image', async (_, coverPath: string) => {
-  //   try {
-  //     const buffer = await fs.readFile(coverPath)
-  //     return buffer
-  //   } catch (error) {
-  //     console.error('Failed to read cover image:', error)
-  //     return null
-  //   }
-  // })
-
   createWindow()
 
   app.on('activate', function () {

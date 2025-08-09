@@ -1,5 +1,6 @@
 import { useTheme } from "@/context";
 import { ComponentProps, useState } from "react";
+import { Link } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 import { SettingsPopup } from "./SettingsPopupProps";
 
@@ -96,13 +97,72 @@ export const AddBookButton = ({ className, icon, ...props }: AddBookButtonProps)
                 {...props}
             >
                 {icon || (
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                        <path fill="currentColor" d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
-                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M6.5 2A2.5 2.5 0 0 0 4 4.5v15A2.5 2.5 0 0 0 6.5 22h6.31a6.5 6.5 0 0 1-1.078-1.5H6.5a1 1 0 0 1-1-1h5.813a6.5 6.5 0 0 1 9.187-7.768V4.5A2.5 2.5 0 0 0 18 2zM8 5h8a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1m15 12.5a5.5 5.5 0 1 0-11 0a5.5 5.5 0 0 0 11 0m-5 .5l.001 2.503a.5.5 0 1 1-1 0V18h-2.505a.5.5 0 0 1 0-1H17v-2.5a.5.5 0 1 1 1 0V17h2.497a.5.5 0 0 1 0 1z" /></svg>
                 )}
             </button>
             <span className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 whitespace-nowrap rounded bg-gray-700 px-2 py-1 text-xs text-white opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity">
                 Add New Read
+            </span>
+        </div>
+    )
+}
+
+
+export interface BR_ButtonProps {
+    className?: string
+    book?: Book
+    icon?: React.ReactNode
+    toolTipText?: string
+    onClick?: () => void
+}
+
+export const BR_Button = ({ className, toolTipText, icon, book, onClick, ...props }: BR_ButtonProps) => {
+    return (
+
+        <div className="relative group inline-block">
+            <button
+                className={twMerge('p-2 rounded-md', className)}
+                onClick={onClick}
+                draggable={false}
+                {...props}
+            >
+                {icon || (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 14 14"><path fill="currentColor" fill-rule="evenodd" d="M2.021 2.021C3.203.84 4.908.25 7 .25s3.797.59 4.979 1.771S13.75 4.908 13.75 7s-.59 3.797-1.771 4.979S9.092 13.75 7 13.75s-3.797-.59-4.979-1.771S.25 9.092.25 7s.59-3.797 1.771-4.979M9.5 7c0 1.6-.9 2.5-2.5 2.5S4.5 8.6 4.5 7S5.4 4.5 7 4.5s2.5.9 2.5 2.5" clip-rule="evenodd" /></svg>
+                )}
+            </button>
+            <span className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 whitespace-nowrap rounded bg-gray-700 px-2 py-1 text-xs text-white opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity">
+                {toolTipText || "Unknown Button"}
+            </span>
+        </div>
+    )
+}
+
+export interface BR_LinkProps {
+    className?: string
+    book?: Book
+    icon?: React.ReactNode
+    toolTipText?: string
+    onClick?: () => void
+    redirectTo?: string
+}
+
+export const BR_Link = ({ className, toolTipText, icon, book, onClick, redirectTo, ...props }: BR_LinkProps) => {
+    return (
+
+        <div className="relative group inline-block">
+            <Link
+                to={redirectTo || `#`}
+                onClick={onClick}
+                className={twMerge('p-2 rounded-md', className)}
+                draggable={false}
+                {...props}
+            >
+                {icon || (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 14 14"><path fill="currentColor" fill-rule="evenodd" d="M2.021 2.021C3.203.84 4.908.25 7 .25s3.797.59 4.979 1.771S13.75 4.908 13.75 7s-.59 3.797-1.771 4.979S9.092 13.75 7 13.75s-3.797-.59-4.979-1.771S.25 9.092.25 7s.59-3.797 1.771-4.979M9.5 7c0 1.6-.9 2.5-2.5 2.5S4.5 8.6 4.5 7S5.4 4.5 7 4.5s2.5.9 2.5 2.5" clip-rule="evenodd" /></svg>
+                )}
+            </Link>
+            <span className="absolute bottom-10 mb-2 left-1/2 transform -translate-x-1/2 whitespace-nowrap rounded bg-gray-700 px-2 py-1 text-xs text-white opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity">
+                {toolTipText || "Unknown Button"}
             </span>
         </div>
     )
